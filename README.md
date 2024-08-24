@@ -31,6 +31,7 @@ var a int = 20
 
 b := strconv.Atoi(a)
 // b := strconv.parseInt(a,10,64)
+// 반대로 int를 str으로 하려면 Itoa
 ```
 
 
