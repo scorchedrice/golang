@@ -24,6 +24,16 @@ var a int = 20
 - 변수명 뒤에 type을 지정
 - 물론 a := 20 으로하면 알아서 유추해서 할 수 있음.
 
+# 타입 변환 (string => int)
+- strconv를 import해서 변환할 수 있음.
+```go
+// a가 string으로 '5'인경우
+
+b := strconv.Atoi(a)
+// b := strconv.parseInt(a,10,64)
+```
+
+
 # 배열
 ```go
 array := [3]int{1,2,3}
