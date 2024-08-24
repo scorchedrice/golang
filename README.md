@@ -34,6 +34,19 @@ b := strconv.Atoi(a)
 // 반대로 int를 str으로 하려면 Itoa
 ```
 
+# String - Unicode
+- Go에서 문자의 대소문자를 구별하는 방법
+```go
+unicode.IsUpper(char)
+```
+- string을 받고 이를 대소문자로 변환하는 방법
+```go
+if isUpper {
+			answer += strings.ToLower(string(char))
+		} else {
+			answer += strings.ToUpper(string(char))
+		}
+```
 
 # 배열
 ```go
