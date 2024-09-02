@@ -52,3 +52,7 @@ func TestIndexPathHandler_WithName(t *testing.T) {
 	assert.Equal("Hello scorchedrices", string(data))
 	//	Fail!
 }
+
+func TestFooHandler_WithoutJson(t *testing.T) {
+
+}
