@@ -23,16 +23,19 @@ type fooHandler struct{}
 func (f *fooHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	user := new(User)
 	err := json.NewDecoder(r.Body).Decode(user)
+
 	if err != nil {
 		// Error 이 발생한경우
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, err)
+		fmt.Fprint(w, "Bad Request: ", err)
 		return
 	}
 	user.CreatedAt = time.Now()
 	data, _ := json.Marshal(user)
+
 	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
+	fmt.Println(data)
 	fmt.Fprint(w, string(data))
 }
 
