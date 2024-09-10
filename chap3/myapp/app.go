@@ -22,6 +22,14 @@ func usersHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "No Users")
 		return
 	}
+	users := []*User{}
+	for _, user := range userMap {
+		users = append(users, user)
+	}
+	data, _ := json.Marshal(users)
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, string(data))
 }
 
 func getUserInfoHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,6 +54,15 @@ func getUserInfoHandler(w http.ResponseWriter, r *http.Request) {
 
 type User struct {
 	ID        int       `json:"id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Email     string    `json:"email"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type UpdateUser struct {
+	ID int `json:"id"`
+	//UpdateFirstName bool `json:"update_first_name"` ... 실제론 이걸 업데이트 할거냐 말거냐 받음.
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
 	Email     string    `json:"email"`

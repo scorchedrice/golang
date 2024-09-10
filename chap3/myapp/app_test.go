@@ -36,7 +36,7 @@ func TestUser(t *testing.T) {
 	resp, err := http.Get(ts.URL + "/users")
 	assert.NoError(err)
 	assert.Equal(http.StatusOK, resp.StatusCode)
-	data, _ := ioutil.ReadAll(resp.Body)
+	data, _ := io.ReadAll(resp.Body)
 	assert.Contains(string(data), "No Users")
 }
 
@@ -157,5 +157,28 @@ func TestUpdateUser(t *testing.T) {
 	assert.Equal("updated", updateUser.FirstName)
 	assert.Equal(user.LastName, updateUser.LastName)
 	assert.Equal(user.Email, updateUser.Email)
+}
 
+func TestUser_WithUsersData(t *testing.T) {
+	assert := assert.New(t)
+
+	ts := httptest.NewServer(NewHandler())
+	defer ts.Close()
+
+	resp, err := http.Post(ts.URL+"/users", "application/json", strings.NewReader(`{"first_name":"Han", "last_name":"jiwoong", "email":"woongveloper98@gmail.com"}`))
+	assert.NoError(err)
+	assert.Equal(http.StatusCreated, resp.StatusCode)
+
+	resp, err = http.Post(ts.URL+"/users", "application/json", strings.NewReader(`{"first_name":"Two", "last_name":"jiwoong", "email":"woongveloper98@gmail.com"}`))
+	assert.NoError(err)
+	assert.Equal(http.StatusCreated, resp.StatusCode)
+
+	resp, err = http.Get(ts.URL + "/users")
+	assert.NoError(err)
+	assert.Equal(http.StatusOK, resp.StatusCode)
+
+	users := []*User{}
+	err = json.NewDecoder(resp.Body).Decode(&users)
+	assert.NoError(err)
+	assert.Equal(2, len(users))
 }
